@@ -1,70 +1,87 @@
-# Student Digital Life: Screen Time & Academic Performance
+# Student Digital Life — Screen Time & Academic Performance
 
-Exploratory data analysis of a 15,000-student dataset looking at how study
-time, smartphone/social media/gaming/streaming usage, sleep, and other
-lifestyle habits relate to final exam scores. Includes a static EDA notebook
-and an interactive Plotly Dash dashboard.
+**Python · Exploratory Data Analysis · Pandas · Matplotlib · Seaborn · Plotly · Dash**
 
-## Contents
+Exploratory analysis of a **synthetic dataset containing 15,000 student records and 18 columns**. This project investigates how study time, digital habits, sleep, and other lifestyle factors relate to final exam scores. It includes a Jupyter notebook and an interactive Plotly Dash dashboard.
 
-| File | Description |
-|---|---|
-| `student_digital_life_analysis.ipynb` | Main EDA notebook: distributions, correlations, and profile comparisons |
-| `dashboard.py` | Interactive Plotly Dash app with filters (gender, mental health, parent education, internet quality, age) built on the same dataset |
-| `student_digital_life.csv` | Dataset (15,000 rows, 18 columns) |
-| `requirements.txt` | Python dependencies |
+> **Scope:** Exploratory data analysis and visualization, **not** a trained machine-learning prediction model. Correlations are descriptive and do not establish causal effects.
 
-## Data source
+## At a glance
 
-Dataset from Kaggle: [Digital Distraction vs Academic Performance](https://www.kaggle.com/datasets/neurocipher/digital-distraction-vs-academic-performance) by neurocipher.
+- **Dataset:** 15,000 rows × 18 columns; source: [Digital Distraction vs Academic Performance on Kaggle](https://www.kaggle.com/datasets/neurocipher/digital-distraction-vs-academic-performance), by neurocipher.
+- **Analysis:** Data inspection, descriptive statistics, distributions, correlation analysis, and study/score profile comparisons.
+- **Dashboard:** Five interactive filters covering gender, mental health, parent education, internet quality, and age.
+- **Reported finding:** In the notebook, study hours have the strongest observed individual correlation with final exam score (approximately **r = 0.64**). This does not imply that changing study hours alone will cause the corresponding score change.
 
-18 columns, 15,000 rows, no missing values, no duplicate rows. Columns cover:
+## Project structure
 
-- **Demographics:** `student_id`, `age`, `gender`
-- **Daily time use (hours):** `study_hours_per_day`, `smartphone_usage_hours`, `social_media_hours`, `gaming_hours`, `streaming_hours`, `sleep_hours`, `exercise_hours`
-- **Academics:** `class_attendance_percent`, `assignment_completion_percent`, `final_exam_score`
-- **Other:** `caffeine_intake_cups`, `mental_health_status`, `parent_education_level`, `internet_quality`, `motivation_level`
+| File | Purpose |
+| --- | --- |
+| [`student_digital_life_analysis.ipynb`](student_digital_life_analysis.ipynb) | Exploratory analysis notebook and visualizations |
+| [`dashboard.py`](dashboard.py) | Interactive Plotly Dash dashboard |
+| [`student_digital_life.csv`](student_digital_life.csv) | Synthetic data supplied with the project |
+| [`requirements.txt`](requirements.txt) | Python dependencies |
+| [`scripts/check_dataset.py`](scripts/check_dataset.py) | Repeatable dataset integrity and correlation check |
 
-## Key findings
+## Get started
 
-- Study time is the strongest single correlate of final exam score
-  (r ≈ 0.64) — clearly stronger than any of the screen-time variables.
-- Among students who study the same amount, the *type* of digital activity
-  they favor (social media vs. gaming vs. streaming) is associated with
-  small differences in average exam score.
-- Grouping students into four profiles (lower/higher study time ×
-  lower/higher score) highlights how study time and outcome relate
-  independent of screen time.
-
-## Running the notebook
-
-The notebook currently reads the CSV from a hardcoded path:
-`/Users/Karo/Desktop/student_digital_life.csv`. Make sure the file is at
-that location, or edit the `pd.read_csv(...)` line in the first code cell
-to point elsewhere.
+**Requirements:** Python 3.10+ and a terminal. Run all commands **from the repository root** (the folder containing `dashboard.py` and the CSV).
 
 ```bash
-pip install -r requirements.txt
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python scripts/check_dataset.py
+```
+
+On Windows, activate the virtual environment with `.venv\Scripts\activate` instead.
+
+### Open the notebook
+
+```bash
 jupyter notebook student_digital_life_analysis.ipynb
 ```
 
-## Running the dashboard
+### Run the dashboard
 
 ```bash
-pip install -r requirements.txt
 python dashboard.py
 ```
 
-Then open http://127.0.0.1:8050 in your browser. `dashboard.py` also
-defaults to `/Users/Karo/Desktop/student_digital_life.csv`; override it
-with the `CSV_PATH` environment variable, e.g.:
+Open **http://127.0.0.1:8050/**. Use the five filters to compare subgroups. The charts and summary values respond to the selected data.
+
+`dashboard.py` reads `student_digital_life.csv` relative to your **current working directory**, so run it from the repository root. To use another CSV with the same schema, set the `CSV_PATH` environment variable:
 
 ```bash
-CSV_PATH=/path/to/student_digital_life.csv python dashboard.py
+CSV_PATH=/path/to/your.csv python dashboard.py
 ```
 
-## Notes
+**No editing of a personal `/Users/.../Desktop` path is required.**
 
-This is an educational/portfolio EDA project. Correlation here does not
-imply causation — e.g., students who already study more may also differ in
-other unmeasured ways.
+## Analysis approach
+
+1. Inspect the structure and completeness of the student dataset.
+2. Explore exam score, screen-time, attendance, sleep, and study-time distributions.
+3. Compare correlations and grouped profiles using descriptive statistics and visualizations.
+4. Build an interactive dashboard for viewing patterns by student characteristics.
+5. Explain limitations before interpreting associations.
+
+The project uses pre-existing synthetic observations, so the plots provide **exploratory evidence**, not validated causal conclusions or real-world treatment recommendations. Dashboard filters may yield small subgroups; interpret those cautiously.
+
+## Reproducibility check
+
+Run:
+
+```bash
+python scripts/check_dataset.py
+```
+
+The check confirms that the dataset is readable, contains the required 18 fields and 15,000 records, has no missing or duplicate rows, and reports the observed study-time/exam-score Pearson correlation. It does not train a predictive model.
+
+## Data source and attribution
+
+The dataset is credited to **neurocipher**, [Digital Distraction vs Academic Performance (Kaggle)](https://www.kaggle.com/datasets/neurocipher/digital-distraction-vs-academic-performance). It is described as **synthetic** in the project's notebook. Consult the source listing for the dataset's licensing and usage conditions; the code repository does not grant additional rights to the original dataset.
+
+## Project status
+
+This is a portfolio project focused on **EDA, interpretation, and interactive communication**. Future ML training/evaluation work, if added, should be documented separately with a reproducible train/test split and model metrics.
